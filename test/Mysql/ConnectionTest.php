@@ -2,13 +2,13 @@
 
 use Amp\Mysql\Connection;
 use Amp\Mysql\DataTypes;
-use Amp\NativeReactor;
+use Amp\Loop;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase {
+class ConnectionTest extends \PHPUnit\Framework\TestCase {
 	function testConnect() {
 		$complete = false;
-		\Amp\reactor(\Amp\driver());
-		\Amp\run(function() use (&$complete) {
+		Loop::set((new Loop\DriverFactory)->create());
+		Loop::run(function() use (&$complete) {
 			$db = new Connection("host=".DB_HOST.";user=".DB_USER.";pass=".DB_PASS.";db=connectiontest");
 			yield $db->connect();
 
@@ -22,8 +22,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testQuery() {
-		\Amp\reactor(\Amp\driver());
-		\Amp\run(function() {
+        Loop::set((new Loop\DriverFactory)->create());
+        Loop::run(function() {
 			$db = new Connection("host=".DB_HOST.";user=".DB_USER.";pass=".DB_PASS.";db=connectiontest");
 			$db->connect();
 
@@ -42,8 +42,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testQueryFetchRow() {
-		\Amp\reactor(\Amp\driver());
-		\Amp\run(function () {
+        Loop::set((new Loop\DriverFactory)->create());
+        Loop::run(function () {
 			$db = new Connection("host=".DB_HOST.";user=".DB_USER.";pass=".DB_PASS.";db=connectiontest");
 			$db->connect();
 
@@ -62,10 +62,10 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase {
 			$this->assertEquals($got, [[1], [2], [3]]);
 		});
 	}
-	
+
 	function testMultiStmt() {
-		\Amp\reactor(\Amp\driver());
-		\Amp\run(function() {
+        Loop::set((new Loop\DriverFactory)->create());
+        Loop::run(function() {
 			$db = new Connection("host=".DB_HOST.";user=".DB_USER.";pass=".DB_PASS.";db=connectiontest");
 			$db->connect();
 
@@ -96,8 +96,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testPrepared() {
-		\Amp\reactor(\Amp\driver());
-		\Amp\run(function() {
+        Loop::set((new Loop\DriverFactory)->create());
+        Loop::run(function() {
 			$db = new Connection("host=" . DB_HOST . ";user=" . DB_USER . ";pass=" . DB_PASS . ";db=connectiontest");
 			$db->connect();
 
@@ -134,8 +134,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testPreparedWithNegativeValue() {
-		\Amp\reactor(\Amp\driver());
-		\Amp\run(function() {
+        Loop::set((new Loop\DriverFactory)->create());
+        Loop::run(function() {
 			$db = new Connection("host=" . DB_HOST . ";user=" . DB_USER . ";pass=" . DB_PASS . ";db=connectiontest");
 			$db->connect();
 

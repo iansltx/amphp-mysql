@@ -46,8 +46,8 @@ class Connection {
 		$this->processor = new Processor($ready, $busy, $restore);
 		$this->processor->config = $config;
 	}
-	
-	
+
+
 
 	public static function parseConnStr($connStr, $sslOptions = null) {
 		$db = null;
@@ -126,7 +126,7 @@ class Connection {
 	public function connect() {
 		return $this->processor->connect();
 	}
-	
+
 	public function getConnInfo() {
 		return $this->processor->getConnInfo();
 	}
@@ -192,7 +192,7 @@ class Connection {
 				return;
 			}
 			if ($array === null) {
-				$deferred->succeed($columns);
+				$deferred->resolve($columns);
 				return;
 			}
 			list($columns[], $promise) = $array;
@@ -341,13 +341,13 @@ REGEX;
 			if ($error) {
 				$retDeferred->fail($error);
 			} else {
-				$retDeferred->succeed($stmt->execute($data));
+				$retDeferred->resolve($stmt->execute($data));
 			}
 		});
 
 		return $retDeferred->promise();
 	}
-	
+
 	public function __destruct() {
 		$this->processor->delRef();
 	}

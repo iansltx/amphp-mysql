@@ -38,6 +38,7 @@ if (file_exists(__DIR__."/mysql_db")) {
 
 $proc = proc_open("mysqld --defaults-file=my.cnf --initialize-insecure", [2 => ["pipe", "w"]], $pipes, __DIR__);
 $stderr = $pipes[2];
+$buf = '';
 do {
 	if (!($row = fgets($stderr)) || preg_match("# \[ERROR\] #", $row)) {
 		print "\nERROR: Aborting, couldn't start mysql successfully\n$buf$row";
